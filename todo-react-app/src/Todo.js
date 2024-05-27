@@ -33,14 +33,22 @@ class Todo extends React.Component{
         this.setState({item:thisItem});
     }
 
-    checkboxEventHandler=(e)=>{
-        const thisItem=this.state.item;
-        thisItem.done=thisItem.done? false:true;
-        //this.setState({item:thisItem});
-        this.setState({readOnly:true});
-        this.update(this.state.item);
-    }
+    // checkboxEventHandler=(e)=>{
+    //     const thisItem=this.state.item;
+    //     thisItem.done=thisItem.done? false:true;
+    //     //this.setState({item:thisItem});
+    //     this.setState({readOnly:true});
+    //     this.update(this.state.item);
+    // }
 
+    checkboxEventHandler = (e) => {
+        const thisItem = this.state.item;
+        thisItem.done = !thisItem.done; // 체크 상태 반전
+        this.setState({ readOnly: true }, () => {
+            this.update(thisItem); // 상태 업데이트
+        });
+    }
+    
     render(){
         const item=this.state.item;
         return(

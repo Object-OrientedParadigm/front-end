@@ -21,8 +21,12 @@ class AddTodo extends React.Component{
     }
 
     onButtonClick=()=>{
-        this.add(this.state.item);
-        this.setState({item:{title:"",importance:"none"}});
+        if (this.state.item.title.trim().length > 0) {
+            this.add(this.state.item);
+            this.setState({ item: { title: "", importance: "none" } }); // Clear the input after adding
+        } else {
+            alert("Please enter at least one character."); // Optional: Show an alert if no input
+        }
     }
 
     enterKeyEventHandler=(e)=>{

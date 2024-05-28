@@ -33,14 +33,6 @@ class Todo extends React.Component{
         this.setState({item:thisItem});
     }
 
-    // checkboxEventHandler=(e)=>{
-    //     const thisItem=this.state.item;
-    //     thisItem.done=thisItem.done? false:true;
-    //     //this.setState({item:thisItem});
-    //     this.setState({readOnly:true});
-    //     this.update(this.state.item);
-    // }
-
     checkboxEventHandler = (e) => {
         const thisItem = this.state.item;
         thisItem.done = !thisItem.done; // 체크 상태 반전
@@ -48,9 +40,22 @@ class Todo extends React.Component{
             this.update(thisItem); // 상태 업데이트
         });
     }
+
+    renderImportanceIcon = (importance) => {
+        switch (importance) {
+            case 'high':
+                return '🔴';
+            case 'medium':
+                return '🟡';
+            case 'low':
+                return '🟢';
+            default:
+                return '';
+        }
+    }
     
     render(){
-        const item=this.state.item;
+        const {item}=this.state;
         return(
             <ListItem>
                 <Checkbox
@@ -71,8 +76,9 @@ class Todo extends React.Component{
                     onKeyPress={this.enterKeyEventHandler}
                     />
                 </ListItemText>
-
-                <ListItemSecondaryAction>
+                <span style={{ marginRight: '20px' }}>{this.renderImportanceIcon(item.importance)}</span>
+                
+                <ListItemSecondaryAction >
                     <IconButton aria-label='Delete'
                     onClick={this.deleteEventHandler}>
                         <DeleteOutlined />

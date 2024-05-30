@@ -5,7 +5,7 @@ import DeleteOutlined from '@material-ui/icons/DeleteOutlined'
 class Todo extends React.Component{
     constructor(props){
         super(props);
-        this.state={item:props.item, readOnly:true};
+        this.state={item:props.item, readOnly:true, sortOption:"time"};
         this.delete=props.delete;
         this.update=props.update;
     }

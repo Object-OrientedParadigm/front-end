@@ -6,6 +6,7 @@ import SignUp from "./SignUp";
 import {BrowserRouter, Routes,Route} from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import { Typography } from "@material-ui/core";
+import KakaoRedirectPage from "./KakaoRedirectPage";
 
 function Copyright(){
     return (
@@ -23,8 +24,10 @@ class AppRouter extends React.Component{
             <BrowserRouter>
                 <div>
                     <Routes>
+                        <Route path="/" element={<Login />}></Route>
                         <Route path="/login" element={<Login />}/>
                         <Route path="/signup" element={<SignUp />}/>
+                        <Route path="/oauth/redirected/kakao" element={<KakaoRedirectPage />} />
                         <Route path="/" element={<App />} />
                     </Routes>
                 </div>

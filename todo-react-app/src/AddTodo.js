@@ -23,9 +23,9 @@ class AddTodo extends React.Component{
     onButtonClick=()=>{
         if (this.state.item.title.trim().length > 0) {
             this.add(this.state.item);
-            this.setState({ item: { title: "", importance: "none" } }); // Clear the input after adding
+            this.setState({ item: { title: "", importance: "none" } }); 
         } else {
-            alert("Please enter at least one character."); // Optional: Show an alert if no input
+            alert("한 글자 이상 입력해 주세요!"); 
         }
     }
 
@@ -34,6 +34,7 @@ class AddTodo extends React.Component{
             this.onButtonClick();
         }
     }
+
 
     render(){
         return (
@@ -53,13 +54,12 @@ class AddTodo extends React.Component{
                     </Grid>
                     <Grid xs={2} sm={3} md={2} item style={{paddingRight:5}}>
                         <FormControl  >
-                            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                            <InputLabel variant="standard" htmlFor="importance-select">
                                 중요도
                             </InputLabel>
                             <NativeSelect
                                 value={this.state.item.importance}
                                 onChange={this.onImpoertanceChange}
-                                defaultValue="none"
                                 inputProps={{
                                 name: 'importance',
                                 id: 'importance-select',

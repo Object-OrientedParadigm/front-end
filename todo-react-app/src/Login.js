@@ -77,7 +77,9 @@
 
 import React from "react";
 import { signin } from "./service/ApiService";
-import { Button, TextField, Grid, Link, Container, Typography } from "@material-ui/core";
+import { Button, TextField, Grid, Link, Container, Typography,IconButton } from "@material-ui/core";
+import kakaoImage from './img/kakao_login_large_wide.png'; // 이미지 경로를 임포트합니다.
+
 
 class Login extends React.Component {
     constructor(props) {
@@ -142,7 +144,7 @@ class Login extends React.Component {
                                 로그인
                             </Button>
                         </Grid>
-                        <Grid item xs={12}>
+                        {/* <Grid item xs={12}>
                             <Button
                                 fullWidth
                                 variant="contained"
@@ -151,7 +153,16 @@ class Login extends React.Component {
                             >
                                 카카오톡 로그인
                             </Button>
+                        </Grid> */}
+                        <Grid item xs={12}>
+                            <IconButton
+                            style={{ width: '100%', padding: 0 }}
+                            onClick={this.handleKakaoLogin}
+                            >
+                            <img src={kakaoImage} alt="카카오톡 로그인" style={{ width: '100%' }} />
+                            </IconButton>
                         </Grid>
+
                         <Grid item xs={12}>
                             <Link href="/signup" variant="body2">
                                 계정이 없습니까? 여기서 가입하세요

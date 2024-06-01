@@ -12,7 +12,7 @@ class App extends React.Component {
             items: [],
             loading: true,
             checkedCount: 0,
-            showCompleted: false,
+            showCompleted: true,
         };
     }
 
@@ -55,7 +55,7 @@ class App extends React.Component {
 
     render() {
         const { items, checkedCount, showCompleted } = this.state;
-        const filteredItems = showCompleted ? items.filter(item => item.done) : items;
+        const filteredItems = !showCompleted ? items.filter(item => item.done) : items;
 
         var todoItems = filteredItems.length > 0 && (
             <Paper style={{ margin: 16 }}>

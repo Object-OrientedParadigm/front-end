@@ -70,7 +70,7 @@
     opacity: 0.2;
 }
 
-form label {
+.loginbody form label {
     color: #1d1d1d;
     font-size: 14px;
     font-weight: bold;

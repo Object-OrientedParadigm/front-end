@@ -12,14 +12,29 @@ class Signup extends React.Component{
         event.preventDefault();
 
         const data=new FormData(event.target);
-        const username=data.get("username");
-        const email=data.get("email");
-        const password=data.get("password");
-        signup({email:email,username:username, password:password}).then(
-            (response)=>{
-                window.location.href="/login";
-            }
-        );
+        if(data.get("username").length===0||data.get("email")===0||data.get("password")===0){
+            alert("모든 내용을 한 글자 이상 입력 해 주세요")
+        }
+        // else if(data.get("username").length>0){
+        //     const username=data.get("username");
+        // }
+        else{
+            const username=data.get("username");
+            const email=data.get("email");
+            const password=data.get("password");
+
+            signup({email:email,username:username, password:password}).then(
+                (response)=>{
+                    window.location.href="/login";
+                }
+            );
+        }
+        
+        // signup({email:email,username:username, password:password}).then(
+        //     (response)=>{
+        //         window.location.href="/login";
+        //     }
+        // );
     }
 
     render(){

@@ -4,6 +4,7 @@ import Todo from './Todo';
 import { Paper, List, Container, Grid, Button, AppBar, LinearProgress, Toolbar, Typography, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
 import AddTodo from './AddTodo';
 import { call, signout } from './service/ApiService';
+import Weather from './Weather';
 
 class App extends React.Component {
     constructor(props) {
@@ -86,28 +87,36 @@ class App extends React.Component {
         const totalItems = items.length;
         const percentage = totalItems > 0 ? (checkedCount / totalItems) * 100 : 0;
 
-        var todoListPage = (
-            <div>
-                {navigationBar}
-                <Container maxWidth="md">
-                    <AddTodo add={this.add} />
-                    <div className='App'>
-                        <Container maxWidth="sm">
-                            <Typography variant="h6">{totalItems}개 중 {checkedCount}개 완료 ({percentage.toFixed(1)}%)</Typography>
-                            <LinearProgress variant="determinate" value={percentage} />
-                        </Container>
-                    </div>
-                    <FormGroup row style={{ justifyContent: 'flex-end', marginTop: '30px'  }}>
-                        <FormControlLabel
-                            control={<Checkbox checked={showCompleted} onChange={this.toggleShowCompleted} />}
-                            label="완료한 목록 보기"
-                        />
-                    </FormGroup>
-                    
-                    <div className='TodoList'>{todoItems}</div>
-                </Container>
-            </div>
-        );
+var todoListPage = (
+  <div>
+    {navigationBar}
+    <Container maxWidth="md">
+      <Grid container spacing={3}>
+        <Grid item xs={4} style={{ padding: '40px' }} >
+          <Weather />
+        </Grid>
+        <Grid item xs={8}>
+          <AddTodo add={this.add} />
+          <div className='App'>
+            <Container maxWidth="sm">
+              <Typography variant="h6">
+                {totalItems}개 중 {checkedCount}개 완료 ({percentage.toFixed(1)}%)
+              </Typography>
+              <LinearProgress variant="determinate" value={percentage} />
+            </Container>
+          </div>
+          <FormGroup row style={{ justifyContent: 'flex-end', marginTop: '30px' }}>
+            <FormControlLabel
+              control={<Checkbox checked={showCompleted} onChange={this.toggleShowCompleted} />}
+              label="완료한 목록 보기"
+            />
+          </FormGroup>
+          <div className='TodoList'>{todoItems}</div>
+        </Grid>
+      </Grid>
+    </Container>
+  </div>
+);
 
         var loadingPage = <h1>로딩중...</h1>;
         var content = loadingPage;

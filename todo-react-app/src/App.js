@@ -14,54 +14,89 @@ class App extends React.Component {
             loading: true,
             checkedCount: 0,
             showCompleted: true,
+            currentPage: 1,
+            totalPages: 0
         };
     }
 
+    add = (item) => {
+        call("/todo", "POST", item).then((response) => {
+            const updatedItems = Array.isArray(response.data) ? response.data : [];
+            const totalPages = Math.ceil(updatedItems.length / 10);
+            this.setState({ items: updatedItems, totalPages });
+        });
+    }
+    
     update = (item) => {
         call("/todo", "PUT", item).then((response) => {
             const updatedItems = Array.isArray(response.data) ? response.data : [];
-            this.setState({
-                items: updatedItems,
-                checkedCount: updatedItems.filter(item => item.done).length
-            });
+            const totalPages = Math.ceil(updatedItems.length / 10);
+            this.setState({ items: updatedItems, totalPages });
         });
     }
-
-    add = (item) => {
-        call("/todo", "POST", item).then((response) =>
-            this.setState({ items: Array.isArray(response.data) ? response.data : [] })
-        );
-    }
-
+    
     delete = (item) => {
-        call("/todo", "DELETE", item).then((response) =>
-            this.setState({ items: Array.isArray(response.data) ? response.data : [] })
-        );
+        call("/todo", "DELETE", item).then((response) => {
+            const updatedItems = Array.isArray(response.data) ? response.data : [];
+            const totalPages = Math.ceil(updatedItems.length / 10);
+            this.setState({ items: updatedItems, totalPages });
+        });
     }
 
     componentDidMount() {
         call("/todo", "GET", null).then((response) => {
             const items = Array.isArray(response.data) ? response.data : [];
             const checkedCount = items.filter(item => item.done).length;
-            this.setState({ items, loading: false, checkedCount });
+            const totalPages = Math.ceil(items.length / 10)
+            this.setState({ items, loading: false, checkedCount, totalPages });
         }).catch((error) => {
             console.error("Failed to fetch todos:", error);
             window.location.href = "/login";
         });
     }
+    handlePageChange = (pageNumber) => {
+        this.setState({ currentPage: pageNumber });
+    }
+
 
     toggleShowCompleted = () => {
         this.setState(prevState => ({ showCompleted: !prevState.showCompleted }));
     }
 
     render() {
-        const { items, checkedCount, showCompleted } = this.state;
+        const { items, checkedCount, showCompleted, currentPage, totalPages } = this.state;
         const filteredItems = !showCompleted ? items.filter(item => !item.done) : items;
-
-        var todoItems = filteredItems.length > 0 && (
+        const pageSize = 10;
+        const startIndex = (this.state.currentPage - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        const currentFilteredItems = filteredItems.slice(startIndex, endIndex);
+        
+        const Pagination = ({ currentPage, totalPages, onPageChange }) => (
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
+                    <button
+                        key={pageNumber}
+                        onClick={() => onPageChange(pageNumber)}
+                        disabled={pageNumber === currentPage}
+                        style={{
+                            margin: '0 5px',
+                            padding: '5px 10px',
+                            backgroundColor: pageNumber === currentPage ? '#007bff' : '#fff',
+                            color: pageNumber === currentPage ? '#fff' : '#007bff',
+                            border: '1px solid #007bff',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        {pageNumber}
+                    </button>
+                ))}
+            </div>
+        );
+        var todoItems = currentFilteredItems.length > 0 && (
             <Paper style={{ margin: 16 }}>
                 <List>
-                    {filteredItems.map((item, idx) => (
+                    {currentFilteredItems.map((item, idx) => (
                         <Todo item={item} key={item.id} delete={this.delete} update={this.update} />
                     ))}
                 </List>
@@ -87,36 +122,37 @@ class App extends React.Component {
         const totalItems = items.length;
         const percentage = totalItems > 0 ? (checkedCount / totalItems) * 100 : 0;
 
-var todoListPage = (
-  <div>
-    {navigationBar}
-    <Container maxWidth="md">
-      <Grid container spacing={3}>
-        <Grid item xs={4} style={{ padding: '40px' }} >
-          <Weather />
-        </Grid>
-        <Grid item xs={8}>
-          <AddTodo add={this.add} />
-          <div className='App'>
-            <Container maxWidth="sm">
-              <Typography variant="h6">
-                {totalItems}개 중 {checkedCount}개 완료 ({percentage.toFixed(1)}%)
-              </Typography>
-              <LinearProgress variant="determinate" value={percentage} />
-            </Container>
-          </div>
-          <FormGroup row style={{ justifyContent: 'flex-end', marginTop: '30px' }}>
-            <FormControlLabel
-              control={<Checkbox checked={showCompleted} onChange={this.toggleShowCompleted} />}
-              label="완료한 목록 보기"
-            />
-          </FormGroup>
-          <div className='TodoList'>{todoItems}</div>
-        </Grid>
-      </Grid>
-    </Container>
-  </div>
-);
+        var todoListPage = (
+            <div>
+                {navigationBar}
+                <Container maxWidth="md">
+                    <Grid container spacing={3}>
+                        <Grid item xs={4} style={{ padding: '40px' }} >
+                            <Weather />
+                        </Grid>
+                        <Grid item xs={8}>
+                            <AddTodo add={this.add} />
+                            <div className='App'>
+                                <Container maxWidth="sm">
+                                    <Typography variant="h6">
+                                        {totalItems}개 중 {checkedCount}개 완료 ({percentage.toFixed(1)}%)
+                                    </Typography>
+                                    <LinearProgress variant="determinate" value={percentage} />
+                                </Container>
+                            </div>
+                            <FormGroup row style={{ justifyContent: 'flex-end', marginTop: '30px' }}>
+                                <FormControlLabel
+                                    control={<Checkbox checked={showCompleted} onChange={this.toggleShowCompleted} />}
+                                    label="완료한 목록 보기"
+                                />
+                            </FormGroup>
+                            <div className='TodoList'>{todoItems}</div>
+
+                        </Grid>
+                    </Grid>
+                </Container>
+            </div>
+        );
 
         var loadingPage = <h1>로딩중...</h1>;
         var content = loadingPage;
@@ -126,7 +162,14 @@ var todoListPage = (
         }
 
         return (
-            <div className='App'>{content}</div>
+            <div className='App'>
+                {content}
+                <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={this.handlePageChange}
+            />
+            </div>
         );
     }
 }

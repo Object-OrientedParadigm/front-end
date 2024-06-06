@@ -23,7 +23,10 @@ class App extends React.Component {
         call("/todo", "POST", item).then((response) => {
             const updatedItems = Array.isArray(response.data) ? response.data : [];
             const totalPages = Math.ceil(updatedItems.length / 10);
-            this.setState({ items: updatedItems, totalPages });
+            const checkedCount = updatedItems.filter(item => item.done).length;
+            const totalItems = updatedItems.length;
+            const percentage = totalItems > 0 ? (checkedCount / totalItems) * 100 : 0;
+            this.setState({ items: updatedItems, totalPages, checkedCount, percentage });
         });
     }
     
@@ -31,7 +34,10 @@ class App extends React.Component {
         call("/todo", "PUT", item).then((response) => {
             const updatedItems = Array.isArray(response.data) ? response.data : [];
             const totalPages = Math.ceil(updatedItems.length / 10);
-            this.setState({ items: updatedItems, totalPages });
+            const checkedCount = updatedItems.filter(item => item.done).length;
+            const totalItems = updatedItems.length;
+            const percentage = totalItems > 0 ? (checkedCount / totalItems) * 100 : 0;
+            this.setState({ items: updatedItems, totalPages, checkedCount, percentage });
         });
     }
     
@@ -39,7 +45,10 @@ class App extends React.Component {
         call("/todo", "DELETE", item).then((response) => {
             const updatedItems = Array.isArray(response.data) ? response.data : [];
             const totalPages = Math.ceil(updatedItems.length / 10);
-            this.setState({ items: updatedItems, totalPages });
+            const checkedCount = updatedItems.filter(item => item.done).length;
+            const totalItems = updatedItems.length;
+            const percentage = totalItems > 0 ? (checkedCount / totalItems) * 100 : 0;
+            this.setState({ items: updatedItems, totalPages, checkedCount, percentage });
         });
     }
 

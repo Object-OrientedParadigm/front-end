@@ -120,7 +120,6 @@ class App extends React.Component {
                             <Typography variant='h6'>오늘의 할 일</Typography>
                         </Grid>
                         <Grid item>
-                            <Button color='inherit' onClick={signout}>MyPage</Button>
                             <Button color='inherit' onClick={signout}>logout</Button>
                         </Grid>
                     </Grid>

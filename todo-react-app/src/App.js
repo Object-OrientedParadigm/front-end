@@ -133,12 +133,12 @@ class App extends React.Component {
         var todoListPage = (
             <div>
                 {navigationBar}
-                <Container maxWidth="md">
+                <Container maxWidth="lg">
                     <Grid container spacing={3}>
-                        <Grid item xs={4} style={{ padding: '40px' }} >
+                        <Grid item xs={3} style={{ padding: '40px' }} >
                             <Weather />
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={9}>
                             <AddTodo add={this.add} />
                             <div className='App'>
                                 <Container maxWidth="sm">

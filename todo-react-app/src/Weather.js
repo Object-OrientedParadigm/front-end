@@ -63,14 +63,14 @@ class Weather extends React.Component {
                             </Box>
                             <Grid container justifyContent="center" style={{ marginTop: '2px' }}>
                                 <Grid item>
-                                    <Typography variant="h3" style={{ marginTop: '5px' }} >
+                                    <Typography variant="h4" style={{ marginTop: '5px' }} >
                                         Seoul
                                     </Typography>
 
-                                    <Typography variant="h5" style={{ marginTop: '5px' }} >
+                                    <Typography variant="h6" style={{ marginTop: '5px' }} >
                                         최저온도: {(temp_min - 273.15).toFixed(0)}°C
                                     </Typography>
-                                    <Typography variant="h5" style={{ marginTop: '5px' }}>
+                                    <Typography variant="h6" style={{ marginTop: '5px' }}>
                                         최고온도: {(temp_max - 273.15).toFixed(0)}°C
                                     </Typography>
                                     <Typography variant="h6" style={{ marginTop: '5px' }}>

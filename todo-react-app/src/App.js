@@ -54,9 +54,27 @@ class App extends React.Component {
         });
     }
 
-    handleDeleteAll = (item) => {
+    // handleDeleteAll = (item) => {
+    //     if (window.confirm("⚠️모든 리스트가 삭제됩니다. 삭제하시겠습니까?⚠️")) {
+    //         call("/todo/all", "DELETE", item).then((response) => {
+    //             this.setState({ items: [], checkedCount: 0, totalPages: 0 });
+    //             alert("모든 리스트가 삭제되었습니다.");
+    //         }).catch((error) => {
+    //             console.error("Failed to delete all todos:", error);
+    //             alert("삭제 실패했습니다.");
+    //         });
+    //     } else {
+    //         alert("취소되었습니다.");
+    //     }
+    // }
+
+    handleDeleteAll = () => {
+        const { items } = this.state;
+    
         if (window.confirm("⚠️모든 리스트가 삭제됩니다. 삭제하시겠습니까?⚠️")) {
-            call("/todo/all", "DELETE", item).then((response) => {
+            const requestData = { items }; // 넘길 item 데이터 준비
+    
+            call("/todo/all", "DELETE", requestData).then((response) => {
                 this.setState({ items: [], checkedCount: 0, totalPages: 0 });
                 alert("모든 리스트가 삭제되었습니다.");
             }).catch((error) => {

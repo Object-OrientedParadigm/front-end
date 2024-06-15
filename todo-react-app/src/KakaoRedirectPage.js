@@ -16,7 +16,6 @@ const KakaoRedirectPage = () => {
             localStorage.setItem("ACCESS_TOKEN", token); // JWT 토큰 저장
             localStorage.setItem("USER_NAME", "");
             localStorage.setItem("USER_ID", response.id);
-            alert(localStorage.getItem("USER_ID"));
             // alert("로그인 성공: " + token)
             window.location.href = "/"; // 홈 페이지로 리디렉션
         } catch (error) {

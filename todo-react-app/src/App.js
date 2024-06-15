@@ -3,7 +3,7 @@ import './App.css';
 import Todo from './Todo';
 import { CircularProgress, Box, Paper, List, Container, Grid, Button, AppBar, LinearProgress, Toolbar, Typography, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
 import AddTodo from './AddTodo';
-import { call, signout } from './service/ApiService';
+import { call, signout, deleteAllTodos } from './service/ApiService';
 import Weather from './Weather';
 
 class App extends React.Component {
@@ -16,7 +16,8 @@ class App extends React.Component {
             showCompleted: true,
             currentPage: 1,
             totalPages: 0,
-            userName: localStorage.getItem("USER_NAME") || "" // 로컬 스토리지에서 사용자 이름 불러오기
+            userName: localStorage.getItem("USER_NAME") || "", // 로컬 스토리지에서 사용자 이름 불러오기
+            userId: localStorage.getItem("USER_ID") || ""
         };
     }
 
@@ -66,6 +67,26 @@ class App extends React.Component {
     }
     handlePageChange = (pageNumber) => {
         this.setState({ currentPage: pageNumber });
+    }
+
+    handleDeleteAll = () => {
+        const { userId } = this.state;
+        if (!userId) {
+            alert("사용자 ID를 찾을 수 없습니다. 다시 로그인 해주세요.");
+            return;
+        }
+
+        deleteAllTodos(userId).then((response) => {
+            if (window.confirm("⚠️모든 리스트가 삭제됩니다. 삭제하시겠습니까?⚠️")) {
+                this.setState({ items: [], checkedCount: 0, totalPages: 0 });
+                alert("모든 리스트가 삭제되었습니다.");
+            } else {
+                alert("취소되었습니다.");
+            }
+        }).catch((error) => {
+            console.error("Failed to delete all todos:", error);
+            alert("삭제 실패했습니다.");
+        });
     }
 
 
@@ -205,8 +226,28 @@ class App extends React.Component {
                             label="완료한 목록 보기"
                         />
                     </FormGroup>
+
+                
                     
-                    <div className='TodoList'>{todoItems}</div>
+                    {/* <div className='TodoList'>{todoItems}</div>
+                </Container>
+                {items.length > 0 && (
+                    <Button variant="contained" color="secondary" onClick={this.deleteAll} style={{ position: 'absolute', bottom: 0, right: 0, margin: '10px' }}>
+                        DELETE ALL TODOS
+                    </Button>
+                )}
+            </div> */}
+            <div className='TodoList'>{todoItems}</div>
+                    {items.length > 0 && (
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={this.handleDeleteAll} 
+                            style={{ display: 'block', marginLeft: 'auto', marginTop: '20px' }}
+                        >
+                            DELETE ALL TODOS
+                        </Button>
+                    )}
                 </Container>
             </div>
         );

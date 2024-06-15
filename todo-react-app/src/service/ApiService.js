@@ -48,6 +48,7 @@ export function signin(userDTO) {
             if (response.token && response.username) {
                 localStorage.setItem("ACCESS_TOKEN", response.token);
                 localStorage.setItem("USER_NAME", response.username); // 사용자 이름 저장
+                localStorage.setItem("USER_ID", response.id);
                 window.location.href = "/";
             }
         })
@@ -77,4 +78,8 @@ export function signup(userDTO) {
 export function signout() {
     localStorage.removeItem("ACCESS_TOKEN");
     window.location.href = "/login";
+}
+
+export function deleteAllTodos(userId) {
+    return call(`/todo/all?userId=${userId}`, "DELETE", null);
 }

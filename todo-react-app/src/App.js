@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Todo from './Todo';
-import { Paper, List, Container, Grid, Button, AppBar, LinearProgress, Toolbar, Typography, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
+import { CircularProgress, Box, Paper, List, Container, Grid, Button, AppBar, LinearProgress, Toolbar, Typography, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
 import AddTodo from './AddTodo';
 import { call, signout } from './service/ApiService';
 import Weather from './Weather';
@@ -73,6 +73,64 @@ class App extends React.Component {
         this.setState(prevState => ({ showCompleted: !prevState.showCompleted }));
     }
 
+    calculateCompletion = () => {
+        const totalItems = this.state.items.length;
+        const completedItems = this.state.items.filter(item => item.done).length;
+        const percentage = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
+        return { total: totalItems, completed: completedItems, percentage };
+    }
+
+    calculateCompletionByCategory = (category) => {
+        const filteredItems = this.state.items.filter(item => item.importance === category);
+        const completed = filteredItems.filter(item => item.done).length;
+        const total = filteredItems.length;
+        const percentage = total > 0 ? (completed / total) * 100 : 0;
+        return { total, completed, percentage };
+    }
+
+    renderCircularProgress = (category) => {
+        const { total, completed, percentage } = category === 'total' ? this.calculateCompletion() : this.calculateCompletionByCategory(category);
+        
+        let color;
+        switch (category) {
+            case 'total':
+                color = 'primary';
+                break;
+            case 'high':
+                color = 'red';
+                break;
+            case 'medium':
+                color = 'yellow';
+                break;
+            case 'low':
+                color = 'green';
+                break;
+            default:
+                color = 'primary';
+        }
+
+        return (
+            <Box display="flex" justifyContent="center" m={3} position="relative">
+                <CircularProgress variant="determinate" value={percentage} size={100} thickness={4} style={{ color: color }} />
+                <CircularProgress
+                    variant="determinate"
+                    value={100}
+                    size={100}
+                    thickness={4}
+                    style={{ color: 'rgba(0, 0, 0, 0.1)', position: 'absolute', top: 0, left: 0 }}
+                />
+                <Typography variant="caption" component="div" color="textSecondary" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                    {`${category}`}
+                    <br />
+                    {`${total}개 중`}
+                    <br />
+                    {`${completed}개 완료`}
+                </Typography>
+            </Box>
+        );
+    }
+
+
     render() {
         const { items, checkedCount, userName, showCompleted, currentPage, totalPages } = this.state;
         const filteredItems = !showCompleted ? items.filter(item => !item.done) : items;
@@ -129,18 +187,17 @@ class App extends React.Component {
             </AppBar>
         );
 
-        const totalItems = items.length;
-        const percentage = totalItems > 0 ? (checkedCount / totalItems) * 100 : 0;
-
         var todoListPage = (
             <div>
                 <Container maxWidth="lg">
                     <AddTodo add={this.add} />
                     <div className='App'>
-                        <Container maxWidth="sm">
-                            <Typography variant="h6">{totalItems}개 중 {checkedCount}개 완료 ({percentage.toFixed(1)}%)</Typography>
-                            <LinearProgress variant="determinate" value={percentage} />
-                        </Container>
+                        <Box display="flex" justifyContent="center" m={2}>
+                            {this.renderCircularProgress('total')}
+                            {this.renderCircularProgress('high')}
+                            {this.renderCircularProgress('medium')}
+                            {this.renderCircularProgress('low')}
+                        </Box>
                     </div>
                     <FormGroup row style={{ justifyContent: 'flex-end', marginTop: '30px'  }}>
                         <FormControlLabel

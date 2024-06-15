@@ -84,15 +84,15 @@ class Weather extends React.Component {
                                         습도: {humidity}%
                                     </Typography>
                                     <br/>
-                                    {/* <Typography variant="h6" style={{ marginTop: '5px' }}>
+                                    <Typography variant="h6" style={{ marginTop: '5px' }}>
                                         강수량: {rain}mm
                                     </Typography>
-                                    {rain > 0 && <Typography variant="h5" style={{ color: 'red', marginTop: '5px' }}>☔️ 우산 챙기세요! ☔️</Typography>} */}
+                                    {rain > 0 && <Typography variant="h5" style={{ color: 'red', marginTop: '5px' }}>☔️ 우산 챙기세요! ☔️</Typography>}
 
-                                    <Typography variant="h6" style={{ marginTop: '5px' }}>
+                                    {/* <Typography variant="h6" style={{ marginTop: '5px' }}>
                                         강수량: {rainn}mm
                                     </Typography>
-                                    {rainn > 0 && <Typography variant="h5" style={{ color: 'red', marginTop: '5px' }}>☔️ 우산 챙기세요! ☔️</Typography>}
+                                    {rainn > 0 && <Typography variant="h5" style={{ color: 'red', marginTop: '5px' }}>☔️ 우산 챙기세요! ☔️</Typography>} */}
                                     {/* 우산 챙기세요 체크용 코드 */}
                                 </Grid>
                                 <Grid item>

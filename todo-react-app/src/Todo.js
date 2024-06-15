@@ -57,7 +57,7 @@ class Todo extends React.Component{
     render(){
         const {item}=this.state;
         const inputBaseStyle = {
-            color: item.done ? 'gray' : 'inherit'
+            color: item.done ? '#adb5bd' : 'inherit'
         };
 
         return(

@@ -105,7 +105,7 @@ class App extends React.Component {
             </div>
         );
         var todoItems = currentFilteredItems.length > 0 && (
-            <Paper style={{ margin: 16 }}>
+            <Paper style={{ margin: 0 }}>
                 <List>
                     {currentFilteredItems.map((item, idx) => (
                         <Todo item={item} key={item.id} delete={this.delete} update={this.update} />
@@ -119,7 +119,7 @@ class App extends React.Component {
                 <Toolbar>
                     <Grid justifyContent="space-between" container>
                         <Grid item>
-                            <Typography variant='h6'>{userNameCheck}좋은 하루 보내세요🍀</Typography>
+                            <Typography variant='h6'>{userNameCheck}좋은 하루 보내세요 🍀</Typography>
                         </Grid>
                         <Grid item>
                             <Button color='inherit' onClick={signout}>logout</Button>
@@ -134,32 +134,22 @@ class App extends React.Component {
 
         var todoListPage = (
             <div>
-                {navigationBar}
                 <Container maxWidth="lg">
-                    <Grid container spacing={3}>
-                        <Grid item xs={3} style={{ padding: '40px' }} >
-                            <Weather />
-                        </Grid>
-                        <Grid item xs={9}>
-                            <AddTodo add={this.add} />
-                            <div className='App'>
-                                <Container maxWidth="sm">
-                                    <Typography variant="h6">
-                                        {totalItems}개 중 {checkedCount}개 완료 ({percentage.toFixed(1)}%)
-                                    </Typography>
-                                    <LinearProgress variant="determinate" value={percentage} />
-                                </Container>
-                            </div>
-                            <FormGroup row style={{ justifyContent: 'flex-end', marginTop: '30px' }}>
-                                <FormControlLabel
-                                    control={<Checkbox checked={showCompleted} onChange={this.toggleShowCompleted} />}
-                                    label="완료한 목록 보기"
-                                />
-                            </FormGroup>
-                            <div className='TodoList'>{todoItems}</div>
-
-                        </Grid>
-                    </Grid>
+                    <AddTodo add={this.add} />
+                    <div className='App'>
+                        <Container maxWidth="sm">
+                            <Typography variant="h6">{totalItems}개 중 {checkedCount}개 완료 ({percentage.toFixed(1)}%)</Typography>
+                            <LinearProgress variant="determinate" value={percentage} />
+                        </Container>
+                    </div>
+                    <FormGroup row style={{ justifyContent: 'flex-end', marginTop: '30px'  }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={showCompleted} onChange={this.toggleShowCompleted} />}
+                            label="완료한 목록 보기"
+                        />
+                    </FormGroup>
+                    
+                    <div className='TodoList'>{todoItems}</div>
                 </Container>
             </div>
         );
@@ -173,12 +163,20 @@ class App extends React.Component {
 
         return (
             <div className='App'>
-                {content}
-                <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={this.handlePageChange}
-            />
+                {navigationBar}
+                <Grid container spacing={3} style={{marginLeft:'50px', marginTop:'30px'}}>
+                    <Grid item xs={2}>
+                        <Weather />
+                    </Grid>
+                    <Grid item xs={8}>
+                        {content}
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={this.handlePageChange}
+                        />
+                    </Grid>
+                </Grid>
             </div>
         );
     }

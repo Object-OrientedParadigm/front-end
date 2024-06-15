@@ -56,6 +56,10 @@ class Todo extends React.Component{
     
     render(){
         const {item}=this.state;
+        const inputBaseStyle = {
+            color: item.done ? 'gray' : 'inherit'
+        };
+
         return(
             <ListItem>
                 <Checkbox
@@ -74,6 +78,7 @@ class Todo extends React.Component{
                     onClick={this.offReadOnlyMode}
                     onChange={this.editEventHandler}
                     onKeyPress={this.enterKeyEventHandler}
+                    style={inputBaseStyle}
                     />
                 </ListItemText>
                 <span style={{ marginRight: '20px' }}>{this.renderImportanceIcon(item.importance)}</span>

@@ -45,8 +45,9 @@ export function call(api, method, request) {
 export function signin(userDTO) {
     return call("/auth/signin", "POST", userDTO)
         .then((response) => {
-            if (response.token) {
+            if (response.token && response.username) {
                 localStorage.setItem("ACCESS_TOKEN", response.token);
+                localStorage.setItem("USER_NAME", response.username); // 사용자 이름 저장
                 window.location.href = "/";
             }
         })

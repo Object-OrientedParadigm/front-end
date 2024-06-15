@@ -15,7 +15,8 @@ class App extends React.Component {
             checkedCount: 0,
             showCompleted: true,
             currentPage: 1,
-            totalPages: 0
+            totalPages: 0,
+            userName: localStorage.getItem("USER_NAME") || "Loading..." // 로컬 스토리지에서 사용자 이름 불러오기
         };
     }
 
@@ -73,7 +74,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { items, checkedCount, showCompleted, currentPage, totalPages } = this.state;
+        const { items, checkedCount, userName, showCompleted, currentPage, totalPages } = this.state;
         const filteredItems = !showCompleted ? items.filter(item => !item.done) : items;
         const pageSize = 10;
         const startIndex = (this.state.currentPage - 1) * pageSize;
@@ -113,11 +114,11 @@ class App extends React.Component {
         );
 
         var navigationBar = (
-            <AppBar position='static'>
+            <AppBar position='static' style={{ backgroundColor: '#556677' }}>
                 <Toolbar>
                     <Grid justifyContent="space-between" container>
                         <Grid item>
-                            <Typography variant='h6'>오늘의 할 일</Typography>
+                            <Typography variant='h6'>{userName}님, 좋은 하루 보내세요!</Typography>
                         </Grid>
                         <Grid item>
                             <Button color='inherit' onClick={signout}>logout</Button>

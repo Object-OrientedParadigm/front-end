@@ -16,6 +16,8 @@ class Weather extends React.Component {
             humidity: 0,
             desc: '',
             icon: '',
+            rain:0,
+            pop:0,
             loading: true,
         };
     }
@@ -31,6 +33,8 @@ class Weather extends React.Component {
             .then((responseData) => {
                 console.log(responseData);
                 const data = responseData.data;
+                // const pop=responseData.data.hourly[0].pop;
+                
                 this.setState({
                     temp: data.main.temp,
                     temp_max: data.main.temp_max,
@@ -38,6 +42,8 @@ class Weather extends React.Component {
                     humidity: data.main.humidity,
                     desc: data.weather[0].description,
                     icon: data.weather[0].icon,
+                    rain: data.rain? data.rain['1h']:0,
+                    // pop:pop*100,
                     loading: false,
                 });
             })
@@ -45,8 +51,9 @@ class Weather extends React.Component {
     }
     // 날씨 정보 출력
     render() {
-        const { temp, temp_max, temp_min, humidity, desc, icon, loading } = this.state;
+        const { temp, temp_max, temp_min, humidity, desc, icon, rain, loading } = this.state;
         const imgSrc = `https://openweathermap.com/img/w/${icon}.png`;
+        const rainn=10;
         if (this.state.loading) {
             return <CircularProgress />;
         } else {
@@ -76,8 +83,18 @@ class Weather extends React.Component {
                                     <Typography variant="h6" style={{ marginTop: '5px' }}>
                                         습도: {humidity}%
                                     </Typography>
-                                </Grid>
+                                    <br/>
+                                    {/* <Typography variant="h6" style={{ marginTop: '5px' }}>
+                                        강수량: {rain}mm
+                                    </Typography>
+                                    {rain > 0 && <Typography variant="h5" style={{ color: 'red', marginTop: '5px' }}>☔️ 우산 챙기세요! ☔️</Typography>} */}
 
+                                    <Typography variant="h6" style={{ marginTop: '5px' }}>
+                                        강수량: {rainn}mm
+                                    </Typography>
+                                    {rainn > 0 && <Typography variant="h5" style={{ color: 'red', marginTop: '5px' }}>☔️ 우산 챙기세요! ☔️</Typography>}
+                                    {/* 우산 챙기세요 체크용 코드 */}
+                                </Grid>
                                 <Grid item>
 
                                 </Grid>

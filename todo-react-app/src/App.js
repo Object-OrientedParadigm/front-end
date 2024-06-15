@@ -227,16 +227,6 @@ class App extends React.Component {
                         />
                     </FormGroup>
 
-                
-                    
-                    {/* <div className='TodoList'>{todoItems}</div>
-                </Container>
-                {items.length > 0 && (
-                    <Button variant="contained" color="secondary" onClick={this.deleteAll} style={{ position: 'absolute', bottom: 0, right: 0, margin: '10px' }}>
-                        DELETE ALL TODOS
-                    </Button>
-                )}
-            </div> */}
             <div className='TodoList'>{todoItems}</div>
                     {items.length > 0 && (
                         <Button

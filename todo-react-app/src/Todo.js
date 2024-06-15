@@ -45,7 +45,7 @@ class Todo extends React.Component{
         switch (importance) {
             case 'high':
                 return '🔴';
-            case 'medium':
+        case 'medium':
                 return '🟡';
             case 'low':
                 return '🟢';

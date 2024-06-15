@@ -76,17 +76,17 @@ class App extends React.Component {
             return;
         }
 
-        deleteAllTodos(userId).then((response) => {
-            if (window.confirm("⚠️모든 리스트가 삭제됩니다. 삭제하시겠습니까?⚠️")) {
+        if (window.confirm("⚠️모든 리스트가 삭제됩니다. 삭제하시겠습니까?⚠️")) {
+            deleteAllTodos(userId).then((response) => {
                 this.setState({ items: [], checkedCount: 0, totalPages: 0 });
                 alert("모든 리스트가 삭제되었습니다.");
-            } else {
-                alert("취소되었습니다.");
-            }
-        }).catch((error) => {
-            console.error("Failed to delete all todos:", error);
-            alert("삭제 실패했습니다.");
-        });
+            }).catch((error) => {
+                console.error("Failed to delete all todos:", error);
+                alert("삭제 실패했습니다.");
+            });
+        } else {
+            alert("취소되었습니다.");
+        }
     }
 
 

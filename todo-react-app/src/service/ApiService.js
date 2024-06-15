@@ -49,6 +49,7 @@ export function signin(userDTO) {
                 localStorage.setItem("ACCESS_TOKEN", response.token);
                 localStorage.setItem("USER_NAME", response.username); // 사용자 이름 저장
                 localStorage.setItem("USER_ID", response.id);
+                alert(localStorage.getItem("USER_ID"));
                 window.location.href = "/";
             }
         })

@@ -54,6 +54,20 @@ class App extends React.Component {
         });
     }
 
+    handleDeleteAll = (item) => {
+        if (window.confirm("⚠️모든 리스트가 삭제됩니다. 삭제하시겠습니까?⚠️")) {
+            call("/todo/all", "DELETE", item).then((response) => {
+                this.setState({ items: [], checkedCount: 0, totalPages: 0 });
+                alert("모든 리스트가 삭제되었습니다.");
+            }).catch((error) => {
+                console.error("Failed to delete all todos:", error);
+                alert("삭제 실패했습니다.");
+            });
+        } else {
+            alert("취소되었습니다.");
+        }
+    }
+
     componentDidMount() {
         call("/todo", "GET", null).then((response) => {
             const items = Array.isArray(response.data) ? response.data : [];
@@ -69,25 +83,8 @@ class App extends React.Component {
         this.setState({ currentPage: pageNumber });
     }
 
-    handleDeleteAll = () => {
-        const { userId } = this.state;
-        if (!userId) {
-            alert("사용자 ID를 찾을 수 없습니다. 다시 로그인 해주세요.");
-            return;
-        }
-
-        if (window.confirm("⚠️모든 리스트가 삭제됩니다. 삭제하시겠습니까?⚠️")) {
-            deleteAllTodos(userId).then((response) => {
-                this.setState({ items: [], checkedCount: 0, totalPages: 0 });
-                alert("모든 리스트가 삭제되었습니다.");
-            }).catch((error) => {
-                console.error("Failed to delete all todos:", error);
-                alert("삭제 실패했습니다.");
-            });
-        } else {
-            alert("취소되었습니다.");
-        }
-    }
+    
+    
 
 
     toggleShowCompleted = () => {

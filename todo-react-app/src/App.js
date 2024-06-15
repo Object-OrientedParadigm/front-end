@@ -16,7 +16,7 @@ class App extends React.Component {
             showCompleted: true,
             currentPage: 1,
             totalPages: 0,
-            userName: localStorage.getItem("USER_NAME") || "Loading..." // 로컬 스토리지에서 사용자 이름 불러오기
+            userName: localStorage.getItem("USER_NAME") || "" // 로컬 스토리지에서 사용자 이름 불러오기
         };
     }
 
@@ -80,6 +80,7 @@ class App extends React.Component {
         const startIndex = (this.state.currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         const currentFilteredItems = filteredItems.slice(startIndex, endIndex);
+        const userNameCheck=userName===""? "":userName+"님, ";
         
         const Pagination = ({ currentPage, totalPages, onPageChange }) => (
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
@@ -118,7 +119,7 @@ class App extends React.Component {
                 <Toolbar>
                     <Grid justifyContent="space-between" container>
                         <Grid item>
-                            <Typography variant='h6'>{userName}님, 좋은 하루 보내세요!</Typography>
+                            <Typography variant='h6'>{userNameCheck}좋은 하루 보내세요🍀</Typography>
                         </Grid>
                         <Grid item>
                             <Button color='inherit' onClick={signout}>logout</Button>
